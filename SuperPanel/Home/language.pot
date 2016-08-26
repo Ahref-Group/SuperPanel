@@ -1,0 +1,246 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-07-11 14:36+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: View/User/header.tpl:6
+msgid "\"退出？\""
+msgstr ""
+
+#: View/User/header.tpl:7
+msgid "\"我们会清除Cookie和Session\""
+msgstr ""
+
+#: View/User/header.tpl:16
+msgid "\"完成！\""
+msgstr ""
+
+#: View/User/header.tpl:25
+msgid "\"错误！\""
+msgstr ""
+
+#: View/User/header.tpl:43
+msgid "公告："
+msgstr ""
+
+#: View/User/header.tpl:44
+msgid "访问IP："
+msgstr ""
+
+#: View/User/header.tpl:45 View/User/nav.tpl:16
+msgid "退出"
+msgstr ""
+
+#: View/User/index.tpl:4 View/User/nav.tpl:23
+msgid "用户面板"
+msgstr ""
+
+#: View/User/ip.tpl:4
+msgid "操作历史"
+msgstr ""
+
+#: View/User/ip.tpl:25
+msgid "您的敏感操作历史"
+msgstr ""
+
+#: View/User/ip.tpl:31
+msgid "序号"
+msgstr ""
+
+#: View/User/ip.tpl:32
+msgid "时间"
+msgstr ""
+
+#: View/User/ip.tpl:33
+msgid "IP"
+msgstr ""
+
+#: View/User/ip.tpl:34
+msgid "登录地点&服务商"
+msgstr ""
+
+#: View/User/ip.tpl:35
+msgid "操作"
+msgstr ""
+
+#: View/User/nav.tpl:11
+msgid "信息"
+msgstr ""
+
+#: View/User/nav.tpl:13
+msgid "设置"
+msgstr ""
+
+#: View/User/nav.tpl:19
+msgid "免费用户"
+msgstr ""
+
+#: View/User/nav.tpl:27
+msgid "节点"
+msgstr ""
+
+#: View/User/nav.tpl:30
+msgid "节点列表"
+msgstr ""
+
+#: View/User/nav.tpl:32
+msgid "众筹节点"
+msgstr ""
+
+#: View/User/nav.tpl:39
+msgid "商店"
+msgstr ""
+
+#: View/User/nav.tpl:40
+msgid "兑换"
+msgstr ""
+
+#: View/User/nav.tpl:41
+msgid "喵币"
+msgstr ""
+
+#: View/User/nav.tpl:42
+msgid "购买&兑换明细"
+msgstr ""
+
+#: View/User/nav.tpl:43
+msgid "站内信息"
+msgstr ""
+
+#: View/User/nav.tpl:44
+msgid "工单系统"
+msgstr ""
+
+#: View/User/nav.tpl:45
+msgid "连接信息"
+msgstr ""
+
+#: View/User/nav.tpl:46
+msgid "邀请好友"
+msgstr ""
+
+#: View/User/nav.tpl:47
+msgid "登录历史"
+msgstr ""
+
+#: View/User/nav.tpl:48
+msgid "系统信息"
+msgstr ""
+
+#: View/Index/header.tpl:8
+msgid "登录"
+msgstr ""
+
+#: View/Index/header.tpl:11
+msgid "邀请码"
+msgstr ""
+
+#: View/Index/header.tpl:12
+msgid "用户协议"
+msgstr ""
+
+#: View/Index/header.tpl:13
+msgid "关于 SuperPanel"
+msgstr ""
+
+#: View/Index/index.tpl:24
+msgid "login"
+msgstr ""
+
+#: View/Index/index.tpl:25
+msgid "register"
+msgstr ""
+
+#: Controller/AuthController.class.php:31
+msgid "退出成功"
+msgstr ""
+
+#: Controller/AuthController.class.php:53
+msgid "密码解码失败，请检查你的网络，并联系网站管理员"
+msgstr ""
+
+#: Controller/AuthController.class.php:56
+msgid "登录成功！"
+msgstr ""
+
+#: Controller/AuthController.class.php:59
+msgid "错误的用户名或密码"
+msgstr ""
+
+#: Controller/AuthController.class.php:62
+msgid "无效的用户名或密码！"
+msgstr ""
+
+#: Controller/AuthController.class.php:68
+msgid "邮箱必填"
+msgstr ""
+
+#: Controller/AuthController.class.php:69
+msgid "用户名必填"
+msgstr ""
+
+#: Controller/AuthController.class.php:70
+msgid "用户密码必填"
+msgstr ""
+
+#: Controller/AuthController.class.php:71
+msgid "重复密码必填"
+msgstr ""
+
+#: Controller/AuthController.class.php:72
+msgid "邀请码必填"
+msgstr ""
+
+#: Controller/AuthController.class.php:73
+msgid "邮箱无效！"
+msgstr ""
+
+#: Controller/AuthController.class.php:74
+msgid "帐号名称已经存在！"
+msgstr ""
+
+#: Controller/AuthController.class.php:75
+msgid "邮箱已存在！"
+msgstr ""
+
+#: Controller/AuthController.class.php:88
+msgid "无效的邀请码"
+msgstr ""
+
+#: Controller/AuthController.class.php:97
+msgid "密码解码失败，请检查您的网络链接或与网站管理员联系"
+msgstr ""
+
+#: Controller/AuthController.class.php:102
+msgid "重复密码解码失败，请检查您的网络链接"
+msgstr ""
+
+#: Controller/AuthController.class.php:107
+msgid "密码和重复密码不相同"
+msgstr ""
+
+#: Controller/AuthController.class.php:112
+msgid "密码不能小于6位"
+msgstr ""
+
+#: Controller/AuthController.class.php:146
+msgid "您已注册成功，但是在为您发送激活邮件时系统发生了错误<br>详细信息为："
+msgstr ""
+
+#: Controller/AuthController.class.php:146
+msgid "<br>请将此信息告知网站管理员以获得帮助"
+msgstr ""

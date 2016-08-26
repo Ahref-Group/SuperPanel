@@ -1,0 +1,63 @@
+.product{
+	background:#fff; border:1px solid #ddd;  margin: 15px 0; overflow:hidden;
+	/*背景，边框额度，边框，hover控制*/
+}
+.product:hover {
+    -webkit-transform: scale(1.05); 
+    -moz-transform: scale(1.05); 
+    -ms-transform: scale(1.05); 
+    -o-transform: scale(1.05); 
+    transform:rotate scale(1.05); 
+    -webkit-transition: all 0.1s ease-in-out; 
+    -moz-transition: all 0.1s ease-in-out; 
+    -o-transition: all 0.1s ease-in-out;
+    transition: all 0.1s ease-in-out;
+}
+.panel-hover:hover {
+    -webkit-transform: scale(1.05); 
+    -moz-transform: scale(1.05); 
+    -ms-transform: scale(1.05); 
+    -o-transform: scale(1.05); 
+    transform:rotate scale(1.05); 
+    -webkit-transition: all 0.1s ease-in-out; 
+    -moz-transition: all 0.1s ease-in-out; 
+    -o-transition: all 0.1s ease-in-out;
+    transition: all 0.1s ease-in-out;
+}
+/*悬浮后的样式，随便操*/
+
+
+.product_shape{    
+	border-style: solid; border-width: 0 100px 100px 0; float:right; height: 0px; width: 0px;
+	-ms-transform:rotate(360deg); /* IE 9 */
+	-o-transform: rotate(360deg);  /* Opera 10.5 */
+	-webkit-transform:rotate(360deg); /* Safari and Chrome */
+	transform:rotate(360deg);
+	border-color: rgba(255,255,255,0) #dff0d8 rgba(255,255,255,0) rgba(255,255,255,0);
+	
+}
+
+.product_default{
+  border: 1px solid #d6e9c6;
+}
+ 
+.product_radius{
+	border-radius:3px;
+}
+ 
+.product_text{
+	color:#3C763D; font-size:14px; position:relative; right:-45px; top:2px; white-space: nowrap;
+	-ms-transform:rotate(45deg); /* IE 9 */
+	-o-transform: rotate(45deg);  /* Opera 10.5 */
+	-webkit-transform:rotate(45deg); /* Safari and Chrome */
+	transform:rotate(45deg);
+}	
+ 
+.product_text_default{
+  color:#3C763D;
+  
+}
+ 
+.product_content{
+	padding:0 20px 10px;
+}
