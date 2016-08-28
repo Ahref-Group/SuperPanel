@@ -19,7 +19,7 @@ class AdminActionController extends Controller {
         if(M('announcement')->add($data,$options=array(),$replace=true)){
             $this->ajaxReturn(array('status'=>"success"));
         }else{
-            $this->ajaxReturn(array('status'=>"error", "info"=>"未知原因"));
+            $this->ajaxReturn(array('status'=>"error", "info"=>_('未知原因')));
         }
     }
     
@@ -93,7 +93,7 @@ class AdminActionController extends Controller {
         $expiration = strtotime($expiration) + 86399;   //从字符串转得的时间戳是当日0点的，需要将其转换至当日23点59分59秒
         
         if(strlen($prefix)>32 || $money <= 0){
-            $this->ajaxReturn(['status'=>'error', 'info'=>'无效的参数']);
+            $this->ajaxReturn(['status'=>'error', 'info'=>_('无效的参数')]);
         }
         
         while($amount-- > 0){
