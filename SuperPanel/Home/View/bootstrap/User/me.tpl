@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>邀请好友 - <{$site_name}></title>
+    <title>用户详情 - <{$site_name}></title>
     
     <include file="Home@bootstrap/User/head" />
 
