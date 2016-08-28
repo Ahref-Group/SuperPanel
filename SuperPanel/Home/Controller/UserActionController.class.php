@@ -45,12 +45,12 @@ class UserActionController extends Controller {
             elseif(sizeof(M('ticket')->where(array('tid'=>$tid, 'uid'=>$this->userinfo['uid']))->select())==1){
                 $result = M('ticket_reply')->add($data);
                 if($result){
-                    $this->ajaxReturn(array('status'=>'success', 'info'=>'提交成功'));
+                    $this->ajaxReturn(array('status'=>'success', 'info'=>_('提交成功')));
                 }
                 else
-                    $this->ajaxReturn(array('status'=>'error', 'info'=>'提交失败'));
+                    $this->ajaxReturn(array('status'=>'error', 'info'=>_('提交失败')));
             }
-            $this->ajaxReturn(array('status'=>'error', '提交的工单无效，可能是已被删除'));
+            $this->ajaxReturn(array('status'=>'error', _('提交的工单无效，可能是已被删除')));
         }
         
         $this->ajaxReturn(array('status'=>'error', 'info'=>_('无效的请求')));
@@ -99,7 +99,7 @@ class UserActionController extends Controller {
         $money = intval(I("post.money"));
         if (!empty($promo_code) && C('PROMO_CODE') == $promo_code){
             if($money < C('PROMO_CODE_REQUIRE')){
-                $this->ajaxReturn(['status'=>'error','info'=>"邀请码有效，但只有当金额大于".C("PROMO_CODE_REQUIRE")."元时才能使用"]);
+                $this->ajaxReturn(['status'=>'error','info'=>'邀请码有效，但只有当金额大于'.C("PROMO_CODE_REQUIRE").'元时才能使用']);
             }
             else{
                 if(C('PROMO_CODE_VALUE')>0){
@@ -110,7 +110,7 @@ class UserActionController extends Controller {
             }
         }
         else{
-            $this->ajaxReturn(['status'=>'error','info'=>"无效的优惠码"]);
+            $this->ajaxReturn(['status'=>'error','info'=>_('无效的优惠码')]);
         }
     }
     
@@ -204,7 +204,7 @@ class UserActionController extends Controller {
         if(D('salt')->verifyGoogle2FactorCode($this->userinfo['uid'], $code)){
             $this->ajaxReturn(['status'=>'success']);
         }else{
-            $this->ajaxReturn(['status'=>'error', 'info'=>'验证失败']);
+            $this->ajaxReturn(['status'=>'error', 'info'=>_('验证失败')]);
         }
     }
     
@@ -214,7 +214,7 @@ class UserActionController extends Controller {
             M('user')->where(['uid'=>$this->userinfo['uid']])->setField('enable_google2factor', 1);
             $this->ajaxReturn(['status'=>'success']);
         }else{
-            $this->ajaxReturn(['status'=>'error', 'info'=>'验证失败']);
+            $this->ajaxReturn(['status'=>'error', 'info'=>_('验证失败')]);
         }
     }
     
@@ -224,7 +224,7 @@ class UserActionController extends Controller {
             M('user')->where(['uid'=>$this->userinfo['uid']])->setField('enable_google2factor', 0);
             $this->ajaxReturn(['status'=>'success']);
         }else{
-            $this->ajaxReturn(['status'=>'error', 'info'=>'验证失败']);
+            $this->ajaxReturn(['status'=>'error', 'info'=>_('验证失败')]);
         }
     }
     
@@ -257,7 +257,7 @@ class UserActionController extends Controller {
         $iid = I('get.iid');
         $item = M('shop_item')->where(['iid'=>$iid])->find();
         if(empty($item)){
-            $this->ajaxReturn(['status'=>'error', 'info'=>'请求的项目不存在']);
+            $this->ajaxReturn(['status'=>'error', 'info'=>_('请求的项目不存在')]);
         }else{
             $this->ajaxReturn(['status'=>'success', 'info'=>$item]);
         }
@@ -267,10 +267,10 @@ class UserActionController extends Controller {
         $iid = I('post.iid');
         $item = M('shop_item')->where(['iid'=>$iid])->find();
         if(empty($item)){
-            $this->ajaxReturn(['status'=>'error', 'info'=>'请求的项目不存在']);
+            $this->ajaxReturn(['status'=>'error', 'info'=>_('请求的项目不存在')]);
         }else{
             if($this->userinfo['money'] < $item['prices'])
-                $this->ajaxReturn(['status'=>'error', 'info'=>'余额不足']);
+                $this->ajaxReturn(['status'=>'error', 'info'=>_('余额不足')]);
             else{
                 if(exec_command(explode('|',$item['commands']), $this->userinfo)){
                     M('user')->where(['uid'=>$this->userinfo['uid']])->setDec('money', $item['prices']);
@@ -285,7 +285,7 @@ class UserActionController extends Controller {
                     M('purchase_log')->add($log);
                     $this->ajaxReturn(['status'=>'success', 'info'=>$this->userinfo['money']-$item['prices']]);
                 }
-                $this->ajaxReturn(['status'=>'error', 'info'=>'命令执行失败']);
+                $this->ajaxReturn(['status'=>'error', 'info'=>_('命令执行失败')]);
             }
         }
     }
