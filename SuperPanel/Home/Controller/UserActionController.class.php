@@ -131,8 +131,8 @@ class UserActionController extends Controller {
         $data['service'] = 'create_direct_pay_by_user';
         $data['total_fee'] = $money;//支付金额
         $data['partner']= C('SPAY_ID');//spay合作者id
-        $data['notify_url']= "http://dev.poi.ink".U('Api/Index/alipay');//不能有get参数 也就是?xxx=xxx&xxx=xxx
-        $data['return_url']= "http://dev.poi.ink".U("Home/User/charge");//不能有get参数 也就是?xxx=xxx&xxx=xxx
+        $data['notify_url']= C('SITE_URL').U('Api/Index/alipay');//不能有get参数 也就是?xxx=xxx&xxx=xxx
+        $data['return_url']= C('SITE_URL').U("Home/User/charge");//不能有get参数 也就是?xxx=xxx&xxx=xxx
         $data['out_trade_no']= $out_trade_no;//商户唯一订单号
         
         $order['out_trade_no'] = $out_trade_no;
