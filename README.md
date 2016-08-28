@@ -1,7 +1,7 @@
 # SuperPanel
 A new shadowsocks panel based on ThinkPHP
 
-## Attention! Your are in developement branch right now! We don't recommend using any code in this branch in Production Environment
+## Attention! You are in development branch right now! We don't recommend using any code in this branch in Production Environment.
 
 ## 注意您目前位于Dev分支，请不要将其用于生产环境。
 
