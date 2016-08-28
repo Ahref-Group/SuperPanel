@@ -35,7 +35,7 @@ return array(
 	*/
 	
 	//调试选项
-	'SHOW_PAGE_TRACE' =>true, 
+	'SHOW_PAGE_TRACE' =>false, 
 	
 	//查询缓存时间
 	'DATA_CACHE_TIME' => 60,
