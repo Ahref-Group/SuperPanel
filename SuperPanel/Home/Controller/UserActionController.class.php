@@ -289,4 +289,56 @@ class UserActionController extends Controller {
             }
         }
     }
+    
+    public function getExchangCodeInfo(){
+        $exchange_code = I('get.exchange_code');
+        $exchange_code_info = M('exchange_code')->where(['code'=>$exchange_code])->find();
+        
+        if(empty($exchange_code_info)){
+            $this->ajaxReturn(['status'=>'error', 'info'=>'无效的兑换码']);
+        }elseif($exchange_code_info['exchange_time'] == 0){
+            //未使用的兑换码
+            if($exchange_code_info['expiration'] >= time()){
+                //合法且有效额兑换码
+                $this->ajaxReturn(['status'=>'success', 'info'=>$exchange_code_info]);
+            }else{
+                $this->ajaxReturn(['status'=>'error', 'info'=>'兑换码已过期，有效期至：'.date('Y-m-d H:i:s', $exchange_code_info['expiration'])]);
+            }
+        }else{
+            //兑换码已被使用
+            if($exchange_code_info['uid'] == $this->userinfo['uid']){
+                $this->ajaxReturn(['status'=>'used', 'info'=>'兑换码已被你使用，使用时间为'.date('Y-m-d H:i:s', $exchange_code_info['exchange_time'])]);
+            }else{
+                $this->ajaxReturn(['status'=>'used', 'info'=>'兑换码已被使用，使用时间为'.date('Y-m-d H:i:s', $exchange_code_info['exchange_time'])]);
+            }
+        }
+    }
+    
+    public function exchange(){
+        $exchange_code = I('post.exchange_code');
+        $exchange_code_info = M('exchange_code')->where(['code'=>$exchange_code])->find();
+        
+        if(empty($exchange_code_info)){
+            $this->ajaxReturn(['status'=>'error', 'info'=>'无效的兑换码']);
+        }elseif($exchange_code_info['exchange_time'] == 0){
+            //未使用的兑换码
+            if($exchange_code_info['expiration'] >= time()){
+                //合法且有效额兑换码
+                
+                M('user')->where(['uid'=>$this->userinfo['uid']])->setInc('money', $exchange_code_info['money']);
+                M('exchange_code')->where(['code'=>$exchange_code])->setField(['uid'=>$this->userinfo['uid'], 'exchange_time'=>time()]);
+
+                $this->ajaxReturn(['status'=>'success', 'info'=>$this->userinfo['money']+$exchange_code_info['money']]);
+            }else{
+                $this->ajaxReturn(['status'=>'error', 'info'=>'兑换码已过期，有效期至：'.date('Y-m-d H:i:s', $exchange_code_info['expiration'])]);
+            }
+        }else{
+            //兑换码已被使用
+            if($exchange_code_info['uid'] == $this->userinfo['uid']){
+                $this->ajaxReturn(['status'=>'used', 'info'=>'兑换码已被你使用，使用时间为'.date('Y-m-d H:i:s', $exchange_code_info['exchange_time'])]);
+            }else{
+                $this->ajaxReturn(['status'=>'used', 'info'=>'兑换码已被使用，使用时间为'.date('Y-m-d H:i:s', $exchange_code_info['exchange_time'])]);
+            }
+        }
+    }
 }

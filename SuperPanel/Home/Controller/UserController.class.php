@@ -120,22 +120,13 @@ class UserController extends Controller {
         $this->assign('charge_status',$charge_status);
         
         $this->assign('alipay_order_list', M('alipay')->order('out_trade_no desc')->where(['uid'=>$this->userinfo['uid']])->select());
-        $this->display();
-    }
-    
-    
-    public function pay(){
-        if(spay_alipay_return_verify('373965c26b44c165e1d29ebd65ee1faf')){
-            $ts = $_GET['trade_status'];
-            if ($ts == 'TRADE_FINISHED' || $ts == 'TRADE_SUCCESS'){
-                //这里写处理的代码
-                $this->show('充值成功');
-            }else{
-                $this->show('充值失败');
-            }
-        }else{
-            $this->show('签名验证失败');
+        
+        $exchange_list = M('exchange_code')->order('exchange_time desc')->where(['uid'=>$this->userinfo['uid']])->field('money, exchange_time')->select();
+        foreach($exchange_list as &$exchange){
+            $exchange['exchange_time'] = date('Y-m-d H:i:s', $exchange['exchange_time']);
         }
+        $this->assign('exchange_list', $exchange_list);
+        $this->display();
     }
     
     public function setting(){
