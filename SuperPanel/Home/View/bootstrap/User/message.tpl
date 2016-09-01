@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-<link href="__PUBLIC__/bootstrap/dist/css/timeline.css" rel="stylesheet">
+    <link href="__PUBLIC__/bootstrap/css/timeline.css" rel="stylesheet">
     <title><?php echo _('站内消息');?> - <{$site_name}></title>
     
     <include file="Home@bootstrap/User/head" />
