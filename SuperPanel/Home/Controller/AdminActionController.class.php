@@ -8,14 +8,12 @@ class AdminActionController extends Controller {
         
         $this->userinfo = isAdmin();
     }
-
-    
     
     public function announcement(){
         $data['item']= I('post.item');
         $data['introduction'] = I('post.introduction');
         $data['text'] = base64_decode(I('post.text'));
-        
+        S('announcement', null);    //先清理缓存
         if(M('announcement')->add($data,$options=array(),$replace=true)){
             $this->ajaxReturn(array('status'=>"success"));
         }else{
@@ -145,6 +143,27 @@ class AdminActionController extends Controller {
     public function deleteExchangeCode(){
         $code = I("post.code");
         M('exchange_code')->where(['code'=>$code])->delete();
+        $this->ajaxReturn(['status'=>'success']);
+    }
+    
+    public function editNode(){
+        $nid = I('post.nid');
+        $data['node_name'] = I('post.node_name');
+        $data['node_info'] = I('post.node_info');
+        $data['status'] = intval(I('post.status'));
+        $data['visible'] = I('post.visible');
+        $data['address'] = I('post.address');
+        
+        if(empty($nid)){
+            M('node')->add($data);
+        }else{
+            M('node')->where(['nid'=>$nid])->save($data);
+        }
+    }
+    
+    public function deleteNode(){
+        $nid = I('post.nid');
+        M('node')->where(['nid'=>$nid])->delete();
         $this->ajaxReturn(['status'=>'success']);
     }
 }

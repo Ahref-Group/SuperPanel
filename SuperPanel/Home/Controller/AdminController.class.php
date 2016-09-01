@@ -56,4 +56,26 @@ class AdminController extends Controller {
         $this->assign('exchange_code_list', $exchange_code_list);
         $this->display();
     }
+    
+    
+    public function editNode(){
+        $nid = I('get.nid');
+        
+        $Node = M('node');
+        $node_list = $Node->field('nid,node_name')->select();
+        
+        
+        
+        $this->assign('node_list', $node_list);
+        if(empty($nid)){
+            //没有参数就是添加节点
+            $this->assign('edit', false);
+            $this->display();
+        }else{
+            $node_info = $Node->where(['nid'=>$nid])->find();
+            $this->assign('node_info', $node_info);
+            $this->assign('edit', true);
+            $this->display();
+        }
+    }
 }
