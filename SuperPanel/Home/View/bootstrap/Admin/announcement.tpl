@@ -55,7 +55,9 @@
                                     </div>
                                 </div>
                                 <!--/.panel-->
-                                <button class="btn btn-warning pull-right" id="send"><i class="fa fa-paper-plane"></i> 提交</button>
+                            </div>
+                            <div class="panel-footer text-right">
+                                <button class="btn btn-warning" id="send"><i class="fa fa-paper-plane"></i> 提交</button>
                             </div>
                         </div>
                         
@@ -109,7 +111,9 @@
         introduction = $('#introduction').val();
         item = $('#item').val();
         $.post("<{:U('Home/AdminAction/announcement')}>", {'item':item,'introduction':introduction,text:text},function(data){
-            
+            if(data['status'] == 'success'){
+                $.alert("修改成功");
+            }
         });
     });
     
