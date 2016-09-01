@@ -24,9 +24,9 @@ class UserController extends Controller {
         $this->assign('userinfo', $this->userinfo);
         $this->assign('ip', get_client_ip());
         $this->assign('disqus_shortname', C('DISQUS_SHORTNAME'));
-        $this->assign('announcement', M('announcement')->cache('announcement')->getField('item,text'));
+        $this->assign('announcement', M('announcement')->cache('announcement', 86400)->getField('item,text'));
         
-        $this->assign('unread_message_amount', M('message')->cache('message', 60)->where(['uid'=>$this->userinfo['uid'], 'unread'=>1])->count());
+        $this->assign('unread_message_amount', M('message')->cache('unread_message_amount', 86400)->where(['uid'=>$this->userinfo['uid'], 'unread'=>1])->count());
     }
     
     //用户中心SAP ProjectSAP Project
@@ -146,10 +146,10 @@ class UserController extends Controller {
     
     public function message(){
         $Message = M('message');
-        $messages = $Message->where(['uid'=>$this->userinfo['uid']])->order('time desc')->select();
+        $messages = $Message->where(['uid'=>$this->userinfo['uid']])->order('time desc')->cache('message')->select();
         
         $Message->where(['uid'=>$this->userinfo['uid'], 'unread'=>1])->setField('unread', 0);
-        S('message',null);      //因为用户读了，所以要把未读数量设置为0并清除缓存
+        S('unread_message_amount',null);      //因为用户读了，所以要把未读数量设置为0并清除缓存
         
         $this->assign('messages', $messages);
         $this->display();

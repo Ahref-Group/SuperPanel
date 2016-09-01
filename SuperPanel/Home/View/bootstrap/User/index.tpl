@@ -33,13 +33,15 @@
                     </div>
                     <!-- /.col-lg-12 -->
                     <div class="col-md-6">
+                        <if condition="!empty($announcement['user_home'])">
+                        <!--仅在有公告时显示面板-->
                         <div class="panel panel-primary">
                             <div class="panel-heading">公告</div>
                             <div class="panel-body">
-                                lalalalalalalalallallalalalalallalalalalalalalaalal
+                                <{$announcement['user_home']}>
                             </div>
                         </div>
-                        
+                        </if>
                         <div class="panel panel-green">
                             <div class="panel-heading"><i class="fa fa-edit"></i> 签到</div>
                             <div class="panel-body text-center">

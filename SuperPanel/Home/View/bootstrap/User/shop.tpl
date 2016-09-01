@@ -195,7 +195,7 @@
         
         $('.buy').click(function(){
             iid = $(this).attr('data-iid');
-            $.get("<{:U('Home/UserAction/get_item_info')}>", {iid:iid},function(data){
+            $.get("<{:U('Home/UserAction/getItemInfo')}>", {iid:iid},function(data){
                 if(data['status'] == 'success'){
                     $('#purchase-title').html(data['info']['title']);
                     $('#purchase-prices').html(data['info']['prices']);

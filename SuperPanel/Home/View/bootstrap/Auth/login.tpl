@@ -87,18 +87,13 @@ $('#login').click(function(){
     });
     
     function login(){
-        var loading = $.dialog({
-			    title:"登录中，请稍后",
-			    content:'<p class="text-center"><i class="fa fa-circle-o-notch fa-spin fa-4x" aria-hidden="true"></i></p>',
-			    closeAnimation: 'right',
-			    });
-			    
+        $("#login").html('<i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>');
         password = $('#password').val();
         password = cmdEncryptClick(password);
         $.post("<{:U('Home/AuthAction/login')}>", { email: $('#email').val(), 'password': password,'remember':$('#remember-me').is(':checked')},
         
         function(data){
-            loading.close();
+            $("#login").html('登录');
             if(data['status'] == 'success'){
                 $.alert({
 				        title:"登录成功！",

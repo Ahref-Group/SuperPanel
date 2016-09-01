@@ -130,7 +130,7 @@
 			}
 			</eq>
 			$.confirm({
-                content: 'url:<{:U("Home/Auth/tos_action")}>',
+                content: 'url:<{:U("Home/Auth/tos")}>',
                 title: '请阅读<{$site_name}>的TOS',
                 confirmButtonClass:"btn-success",
                 cancelButtonClass:'btn-danger',

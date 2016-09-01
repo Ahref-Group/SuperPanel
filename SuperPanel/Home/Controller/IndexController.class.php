@@ -14,13 +14,13 @@ class IndexController extends Controller {
         $this->display();
     }
     
-    public function invite_code(){
+    public function inviteCode(){
         if(C('REQUIRE_INVITE_CODE') == 0){
             jump(U('Home/Auth/register'));
             exit;
         }
         $invite_code_list = M("invite_code")->where(array('uid' => 0))->select();
-        $this->assign("invite_code_list", $invite_code_list);
+        $this->assign("inviteCodeList", $inviteCodeList);
         $this->display();
     }
 }

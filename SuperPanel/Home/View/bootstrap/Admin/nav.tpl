@@ -77,7 +77,7 @@
                             <a href="<{:U("Home/Admin/node")}>"><i class="fa fa-server fa-fw"></i> 节点管理<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="<{:U("Home/Admin/add_node")}>"><i class="fa fa-plus fa-fw"></i> 添加节点</a>
+                                    <a href="<{:U("Home/Admin/editNode")}>"><i class="fa fa-plus fa-fw"></i> 添加节点</a>
                                 </li>
                                 <li>
                                     <a href="<{:U("Home/Admin/nodeList")}>"><i class="fa fa-list fa-fw"></i> 节点列表</a>
