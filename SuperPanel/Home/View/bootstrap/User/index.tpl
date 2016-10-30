@@ -45,11 +45,16 @@
                         <div class="panel panel-green">
                             <div class="panel-heading"><i class="fa fa-edit"></i> 签到</div>
                             <div class="panel-body text-center">
-                                <strong>今天你签到了么？</strong>
+                                <strong><if condition="$checkined">你已经签到了，明天再来吧！<else/>今天你签到了么？</if></strong>
                                 <p>上次签到时间：<code><{$userinfo['last_check_in_time']?date('Y-m-d H:i:s', $userinfo['last_check_in_time']):"从未签到"}></code></p>
                             </div>
                             <div class="panel-footer text-right">
-                                <button class="btn btn-warning">我要签到</button>
+                                <small class="pull-left text-info">签到可以获得一定数量的喵币哦！</small>
+                                <if condition="$checkined">
+                                    <button class="btn btn-warning" disabled="disabled">已签到</button>
+                                <else/>    
+                                    <button class="btn btn-warning" id="checkin">我要签到</button>
+                                </if>
                             </div>
                         </div>
                     </div>
@@ -60,7 +65,12 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-lg-6 col-xs-12">
-                                        <canvas id="myChart" width="100" height="100"></canvas>
+                                        <canvas id="transfer" width="100" height="100"></canvas>
+                                        <br />
+                                    </div>
+                                    <div class="col-lg-6 col-xs-12">
+                                        <canvas id="days" width="100" height="100"></canvas>
+                                        <br />
                                     </div>
                                     <div class="col-md-12"><p>上次使用时间：<code><{$userinfo['t']?date('Y-m-d H:i:s', $userinfo['t']):"从未使用"}></code></p></div>
                                 </div>
@@ -129,25 +139,30 @@ $(document).ready(function(){
 
 var data = {
     labels: [
-        "已用流量",
+        "下载流量",
+        "上传流量",
+        "昨日流量",
         "可用流量"
     ],
     datasets: [
         {
-            data: [300, 50],
+            data: [<{$userinfo[ 'd']}>,<{$userinfo[ 'u']}>,<{$userinfo['real_transfer']}>,<{$userinfo[ 'transfer_enable']}>],
             backgroundColor: [
                 "#FF6384",
+                "#88629e",
+                "#88622e",
                 "#00FF00"
             ],
             hoverBackgroundColor: [
                 "#FF6384",
+                "#88629e",
+                "#88622e",
                 "#00FF00"
             ]
         }]
 };
-
-var ctx = $("#myChart");
-var myChart = new Chart(ctx, {
+var ctx = $("#transfer");
+var transfer = new Chart(ctx, {
     type:'doughnut',
     data:data,
     options:{
@@ -156,6 +171,51 @@ var myChart = new Chart(ctx, {
             tooltipTemplate: "<%if (label){%><%=label%>: <%}%><strong><%= value %></strong>%"
           }
         }
+    });
+var data = {
+    labels: [
+        "已用天数",
+        "剩余天数",
+    ],
+    datasets: [
+        {
+            data: [<{$userinfo[ 'd']}>,<{$userinfo[ 'u']}>],
+            backgroundColor: [
+                "#FF6384",
+                "#88629e"
+            ],
+            hoverBackgroundColor: [
+                "#FF6384",
+                "#88629e"
+            ]
+        }]
+};
+
+var ctx = $("#days");
+var days = new Chart(ctx, {
+    type:'doughnut',
+    data:data,
+    options:{
+        tooltips: {
+            enabled: true,
+            tooltipTemplate: "<%if (label){%><%=label%>: <%}%><strong><%= value %></strong>%"
+          }
+        }
+    });
+    
+    
+    
+    $('#checkin').click(function(){
+        $("#checkin").html('<i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>');
+        $.post('<{:U('Home/UserAction/checkin')}>',{}, function(data){
+            if(data['status'] == 'success'){
+                $.alert(data['info']);
+                $('#checkin').html("已签到");
+                $('#checkin').attr('disabled', true);
+            }
+            else
+                $.alert('额，签到失败了，原因是：'+data['info']);
+        });
     });
 </script>
 </html>

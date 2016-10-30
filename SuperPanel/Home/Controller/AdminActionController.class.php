@@ -151,19 +151,141 @@ class AdminActionController extends Controller {
         $data['node_name'] = I('post.node_name');
         $data['node_info'] = I('post.node_info');
         $data['status'] = intval(I('post.status'));
-        $data['visible'] = I('post.visible');
+        $data['visible'] = I('post.visible') == 'true'?1:0;
         $data['address'] = I('post.address');
         
         if(empty($nid)){
             M('node')->add($data);
+            $this->ajaxReturn(['status'=>'success']);
         }else{
             M('node')->where(['nid'=>$nid])->save($data);
+            $this->ajaxReturn(['status'=>'success']);
         }
+    }
+    
+    
+    public function editGroup(){
+    }
+    
+    public function closeTicket(){
+        $tid = I('post.tid');
+        if(M('ticket')->where(['tid'=>$tid, 'status'=>['neq', 'closed']])->count()==1){
+            M('ticket')->where(['tid'=>$tid])->setField('status', 'closed');
+            $this->ajaxReturn(['status'=>'success', 'info'=>_('该工单已被关闭')]);
+        }else{
+            $this->ajaxReturn(['status'=>'error', 'info'=>_('该工单不存在或已被关闭')]);
+        }
+    }
+    
+    public function editGroupNode(){
+        $gid = I('post.gid');
+        $nid = explode(',', I('post.nid'));
+        
+        $node_list = M('node')->getField('nid',true);
+        
+        foreach($nid as $single_nid){
+            if(!empty($single_nid)){
+                if(in_array($single_nid, $node_list)){
+                    $valid_nid[] = $single_nid;
+                }
+            }
+        }
+        
+        $nid = implode(',', $valid_nid);
+        M('group')->where(['gid'=>$gid])->setField('node', $nid);
+        
+        $this->ajaxReturn(['status'=>'success']);
+    }
+    
+    
+    public function getTicketContent(){
+        $tid = I('post.tid');
+        
+        $ticket = M('ticket')->where(['tid'=>$tid])->find();
+        
+        if(empty($ticket)){
+            $this->ajaxReturn(['status'=>'error', '无效的tid']);
+        }
+        $userinfo = M('user')->where(['uid'=>$ticket['uid']])->find();
+        $ticket_reply = M('ticket_reply')->where(['tid'=>$tid])->select();
+        
+        $data['data'][0] = array('tid'=>$tid, 'uid'=>$ticket['uid'], 'message'=>$ticket['message'], 'reply_time'=>$ticket['open_time']);
+        $data['data'] = array_merge($data['data'], $ticket_reply);
+        
+        
+        $data['userinfo'] = $userinfo;
+        $data['userinfo']['gravatar_url'] = get_gravatar_url($userinfo['email'], 50);
+        $this->ajaxReturn(['status'=>'success', 'info'=>$data]);
     }
     
     public function deleteNode(){
         $nid = I('post.nid');
-        M('node')->where(['nid'=>$nid])->delete();
-        $this->ajaxReturn(['status'=>'success']);
+        
+        if(M('node')->where(['nid'=>$nid])->delete()){
+            $this->ajaxReturn(['status'=>'success']);
+        }else{
+            $this->ajaxReturn(['status'=>'error', 'info'=>'删除失败，可能是节点不存在']);
+        }
+    }
+    
+    public function getUserInfo(){
+        $uid = I('get.uid');
+        $user = M('user')->where(['uid'=>$uid])->find();
+        
+        if (empty($user)){
+            $this->ajaxreturn(['status' => 'error', 'info' => '用户信息不存在！']);
+        }else{
+            $this->ajaxreturn(['status' => 'true', 'info' => $user]);
+        }
+    }
+    
+    public function editItem(){
+        $iid = I('post.iid');
+        $data['title'] = urlsafe_b64decode(I('post.title'));
+        $data['prices'] = urlsafe_b64decode(I('post.prices'));
+        $data['amount'] = I('post.amount');
+        $data['introduction'] = urlsafe_b64decode(I('post.introduction'));
+        $data['commands'] = urlsafe_b64decode(I('post.command'));
+        
+        if('' == $data['amount']){
+            $data['amount'] = 'INF';
+        }
+        
+        if(empty($iid)){
+            M('shop_item')->add($data);
+            $this->ajaxreturn(['status'=>'success']);
+        }else{
+            M('shop_item')->where(['iid'=>$iid])->save($data);
+            $this->ajaxreturn(['status'=>'success']);
+        }
+    }
+    
+    public function deleteItem(){
+        $iid = I('post.iid');
+        $ShopItem = M('shop_item');
+        if($ShopItem->where(['iid'=>$iid]) -> count() == 0){
+            $this->ajaxreturn(['status'=>'error', 'info'=>'商品不存在']);
+        }else{
+            $ShopItem->where(['iid'=>$iid])->delete();
+            $this->ajaxreturn(['stauts'=>'success']);
+        }
+    }
+    
+    public function deleteAllItem(){
+        if(I('post.confirm') == 'confirm'){
+            M('shop_item')->where(1)->delete();
+            $this->ajaxreturn(['stauts'=>'success']);
+        }else{
+            $this->ajaxreturn(['status'=>'error', 'info'=>'需要确认']);
+        }
+    }
+    
+    
+    public function replyTicket(){
+        $data['tid'] = I('post.tid');
+        $data['message'] = I('post.message');
+        $data['uid'] = 0;
+        M('ticket_reply')->add($data);
+        $this->ajaxreturn(['status' =>'success']);
     }
 }

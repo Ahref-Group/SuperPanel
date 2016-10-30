@@ -31,6 +31,11 @@ class UserController extends Controller {
     
     //用户中心SAP ProjectSAP Project
     public function index(){
+        if(date('ymd', $this->userinfo['last_check_in_time']) == date('ymd')){
+            $this->assign('checkined', true);
+        }else{
+            $this->assign('checkined', false);
+        }
         $this->display();
     }
     

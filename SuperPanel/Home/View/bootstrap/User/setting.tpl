@@ -279,9 +279,10 @@
                     $("#enable-google2factor").html('取消两步验证');
                     $.alert("开启成功");
                 }
-                else
+                else{
                     $("#enable-google2factor").html('开启');
                     $.alert("开启失败");
+                }
             });
         });
         
@@ -292,9 +293,10 @@
                     $("#disable-google2factor").html('开启');
                     $.alert("关闭成功");
                 }
-                else
+                else{
                     $("#disable-google2factor").html('取消两步验证');
                     $.alert("关闭失败");
+                }
             });
         });
         
@@ -304,7 +306,8 @@
             $.post("<{:U('Home/UserAction/checkGoogle2FactorCode')}>",{code:$("#code").val()},function(data){
                 if(data['status'] == 'success'){
                     $("#check").html('测试成功');
-                    
+                    $("#check").attr("disabled",true);
+                    $("#code").attr("disabled",true);
                 }
                 else
                     $("#check").html('测试失败');

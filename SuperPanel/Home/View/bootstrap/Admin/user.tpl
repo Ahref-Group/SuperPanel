@@ -160,9 +160,7 @@
                                         <th class="text-center">邀请人</th>
                                     </tr>
                                 </thead>
-                                <tbody id="user-list">
-                                    
-                                </tbody>
+                                <tbody id="user-list" class="text-center"></tbody>
                                 <tfoot>
                                     <tr>
                                         <th class="text-center">#</th>
@@ -197,6 +195,7 @@
                                 <label class="radio-inline"><input type="radio">删除</label>
                                 <label class="radio-inline"><input type="radio">发送消息</label>
                             </div>
+                            <button class="btn btn-primary edit" data-uid="'+e['uid']+'">编辑</button>
                             <button class="btn btn-primary">提交</button>
                             
                     <!--    </div>-->
@@ -218,6 +217,126 @@
         <!-- /#page-wrapper -->
     </div>
     <!-- /#wrapper -->
+<div class="modal fade" id="userInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-close"></i></button>
+                <h4 class="modal-title" id="connect-info-title">
+                   <?php echo _('用户信息');?>
+                </h4>
+            </div>
+            <div class="modal-body" id="connect-info-body">
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a href="#ss-info" data-toggle="tab"><?php echo _('账号信息');?></a>
+                                </li>
+                                <li><a href="#qrcode" data-toggle="tab"><?php echo _('连接信息');?></a>
+                                </li>
+                                <li><a href="#ss-link-info" data-toggle="tab"><?php echo _('账户设置');?></a>
+                                </li>
+                                <li><a href="#ss-config" data-toggle="tab"><?php echo _('管理员备注');?></a>
+                                </li>
+                            </ul>
+
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div class="tab-pane fade in active" id="accountInfo">
+                                    <h4><?php echo _('账号信息');?></h4>
+                                    <hr />
+                                    <div class="table-responsive">
+                                        <table class="table table-striped text-center">
+                                            <tbody>
+                                                <tr>
+                                                    <td><?php echo _('用户名');?></td>
+                                                    <td id="userName">userName</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><?php echo _('用户邮箱');?></td>
+                                                    <td id="userEmail">useremail@superpanel.pw</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><?php echo _('新登录密码');?></td>
+                                                    <td id="newPass" placeholder="留空为不更改"></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade clearfix text-center" id="connectionInfo">
+                                    <h4><?php echo _('连接信息');?></h4>
+                                    <hr />
+                                    <div class="table-responsive">
+                                        <table class="table table-striped text-center">
+                                            <tbody>
+                                                <tr>
+                                                    <td><?php echo _('端口号');?></td>
+                                                    <td id="port">port</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><?php echo _('连接密码');?></td>
+                                                    <td id="connectPass"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><?php echo _('节点加密方式');?></td>
+                                                    <td id="method"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><?php echo _('节点混淆');?></td>
+                                                    <td id="obfs"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><?php echo _('节点协议');?></td>
+                                                    <td id="protocol"></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="accoutSettings">
+                                    <h4><?php echo _('账户设置');?></h4>
+                                    <hr />
+                                    <div class="table-responsive">
+                                        <table class="table table-striped text-center">
+                                            <tbody>
+                                                <tr>
+                                                    <td><?php echo _('所属节点组');?></td>
+                                                    <td id="group"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><?php echo _('剩余喵币');?></td>
+                                                    <td id="miaoLeft">0</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><?php echo _('账户状态');?></td>
+                                                    <td id="state">暂停</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="ss-config">
+                                    <h4><?php echo _('管理员备注：');?></h4>
+                                    <div class="table-responsive">
+                                        <table class="table table-striped text-center">
+                                            <tbody>
+                                                <tr>
+                                                    <td><?php echo _('只有权限管理可见');?></td>
+                                                    <td id="group"></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal"><i class="fa fa-close"></i> <?php echo _('保存');?></button>
+                <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fa fa-close"></i> <?php echo _('关闭');?></button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
 <include file="Home@bootstrap/Public/footer" />
 
     </body>
@@ -245,10 +364,12 @@
             display_amount=$("#display-amount").val();
             order = $('.order:checked').val();
             sort = $("#sort").val();
+            var ajaxing = $.dialog({title:"Loading",content:"<p class='text-center'><i class='fa fa-circle-o-notch fa-spin fa-5x'></i></p>",closeIcon: false});
             $.get('<{:U('Home/AdminAction/userList')}>',{draw:draw,page:current_page,length:display_amount,order:order,
                 sort:sort,miao_not_none:$("#miao-not-none").is(':checked'),email_not_verified:$("#email-not-verify").is(":checked"),
                 user_disabled:$("#user-disabled").is(":checked"),transfer_eq_zero:$("#transfer-eq-zero").is(":checked")
                 },function(data){
+                ajaxing.close();
                 if(draw != data['draw']){
                     return;
                 }
@@ -320,6 +441,7 @@
             $(".page-number").click(function(){
                 current_page = parseInt($(this).attr("data-page"));
                 update_page();
+                
             });
         }
         
@@ -376,6 +498,19 @@
                 return year + '-' + month + '-' + day +' ' +hours + ':' + minutes + ':' + second;
         }
         
+        $(".edit").click(function(){
+            $("#userInfo").show();
+            uid = 0;
+            $.get("<{:U('Home/AdminAction/getUserInfo')}>"), {uid:uid},function(data){
+                if (data['status'] = 'true'){
+                    $("userName").html(data['info']['username']);
+                }
+                else{
+                $.alert("error");
+                }
+            }
+            
+        });
         
     </script>
 </html>

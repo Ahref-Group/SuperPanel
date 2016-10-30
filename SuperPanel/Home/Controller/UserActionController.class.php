@@ -28,7 +28,7 @@ class UserActionController extends Controller {
                 $this->ajaxReturn(array('status'=>'error', 'info'=>_('未知原因，该工单删除失败')));
             }
         }elseif($action == 'close_ticket'){             //关闭工单
-            $result = M('ticket')->where(array('uid'=>$this->userinfo['uid'], 'tid'=>$tid))->save(array('status'=>'0'));
+            $result = M('ticket')->where(array('uid'=>$this->userinfo['uid'], 'tid'=>$tid))->save(array('status'=>'closed'));
             if($result == 1){
                 $this->ajaxReturn(array('status'=>'success', 'info'=>_('工单已成功关闭')));
             }
@@ -42,15 +42,21 @@ class UserActionController extends Controller {
             if(strlen($data['message']) == 0){
                 $this->ajaxReturn(array('status'=>'error', 'info'=>_('消息不能不为空')));
             }
-            elseif(sizeof(M('ticket')->where(array('tid'=>$tid, 'uid'=>$this->userinfo['uid']))->select())==1){
-                $result = M('ticket_reply')->add($data);
-                if($result){
+            else{
+                $ticket = M('ticket')->where(array('tid'=>$tid, 'uid'=>$this->userinfo['uid']))->find();
+                if(empty($ticket))
+                    $this->ajaxReturn(array('status'=>'error', _('提交的工单无效，可能是已被删除')));
+                elseif($ticket['status'] == 'closed')
+                    $this->ajaxReturn(['status'=>'error', info=>'此工单已关闭']);
+                else{
+                    $result = M('ticket_reply')->add($data);
+                    M('ticket')->where(['tid'=>$tid])->setField('status', 'updated');
+                    if($result)
                     $this->ajaxReturn(array('status'=>'success', 'info'=>_('提交成功')));
+                    else
+                        $this->ajaxReturn(array('status'=>'error', 'info'=>_('提交失败')));
                 }
-                else
-                    $this->ajaxReturn(array('status'=>'error', 'info'=>_('提交失败')));
             }
-            $this->ajaxReturn(array('status'=>'error', _('提交的工单无效，可能是已被删除')));
         }
         
         $this->ajaxReturn(array('status'=>'error', 'info'=>_('无效的请求')));
@@ -60,7 +66,7 @@ class UserActionController extends Controller {
         $data['title'] = I('post.type').' - '.I('post.title');
         $data['message'] = I('post.message');
         $data['uid'] = $this->userinfo['uid'];
-        
+        $data['username'] = $this->userinfo['username'];
         M('ticket')->add($data);
         $this->ajaxReturn(array('status'=>'success', 'info'=>_('您的工单添加成功！')));
     }
@@ -103,10 +109,14 @@ class UserActionController extends Controller {
             }
             else{
                 if(C('PROMO_CODE_VALUE')>0){
-                    $this->ajaxReturn(['status'=>'success','info'=>$money*C("PROMO_CODE_VALUE")]);
+                    $moeny = $money*C("PROMO_CODE_VALUE");
                 }
-                else
-                    $this->ajaxReturn(['status'=>'success','info'=>$money+C("PROMO_CODE_VALUE")]);
+                else{
+                    $money = $money+C("PROMO_CODE_VALUE");
+                }
+                if ($money <11) $money = $money +0.5;
+                
+                $this->ajaxReturn(['status'=>'success','info'=>$money]);
             }
         }
         else{
@@ -143,6 +153,10 @@ class UserActionController extends Controller {
         
         $url = spay_alipay_pay($data,C('SPAY_CODE'));
         $this->ajaxReturn(['url'=>$url]);
+        //上课无聊瞎他喵的写着玩的自动获取支付婊的QR
+        $qrCodeHtml = file_get_contents($url);
+        
+        
     }
     
     public function deleteUser(){
@@ -264,6 +278,11 @@ class UserActionController extends Controller {
     }
     
     public function purchase(){
+        
+        Vendor('CommandParser.CommandParser');
+        $CommandParser = new \CommandParser();
+        
+        
         $iid = I('post.iid');
         $item = M('shop_item')->where(['iid'=>$iid])->find();
         if(empty($item)){
@@ -272,7 +291,7 @@ class UserActionController extends Controller {
             if($this->userinfo['money'] < $item['prices'])
                 $this->ajaxReturn(['status'=>'error', 'info'=>_('余额不足')]);
             else{
-                if(exec_command(explode('|',$item['commands']), $this->userinfo)){
+                if($CommandParser->exec_command($item['commands'], $this->userinfo)){
                     M('user')->where(['uid'=>$this->userinfo['uid']])->setDec('money', $item['prices']);
                     if($item['type'] == 'port'){
                         M('shop_item')->where(['iid'=>$iid])->delete();    //端口项目只允许购买一次，买了当然要立即删除
@@ -340,5 +359,28 @@ class UserActionController extends Controller {
                 $this->ajaxReturn(['status'=>'used', 'info'=>'兑换码已被使用，使用时间为'.date('Y-m-d H:i:s', $exchange_code_info['exchange_time'])]);
             }
         }
+    }
+    
+    public function checkin(){
+        //先获取用户上次签到的时间
+        $last_checkin_time = M('user')->where(['uid'=>$this->userinfo['uid']])->getField('last_check_in_time');
+        
+        //检查用户是不是今天签到的
+        if(date('ymd', $last_checkin_time) == date('ymd', time())){
+            //相等说明用户在今天已经签到了
+            $this->ajaxReturn(['status'=>'error', 'info'=>'你今天已经签到过了哦！']);
+        }
+        
+        
+        $base = mt_rand()%100/100;
+        //使用三次函数获得最高奖励的比例
+        //函数为0.9x^3 + 0.1;
+        $ratio = 0.9 * pow($base, 3) + 0.1;
+        $money = round(C('MIN_GIFT_MONEY') + (C('MAX_GIFT_MONEY') - C('MIN_GIFT_MONEY'))*$ratio, 2);
+        //根据比率计算出用户签到所获得的喵币
+        M('user')->where(['uid'=>$this->userinfo['uid']])->setInc('money', $money);
+        M('user')->where(['uid'=>$this->userinfo['uid']])->setField('last_check_in_time', time());
+        
+        $this->ajaxReturn(['status'=>'success', 'info'=>'签到成功，您获得了'.$money.'个喵币']);
     }
 }

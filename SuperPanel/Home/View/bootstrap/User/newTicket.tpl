@@ -143,7 +143,7 @@
         
         
         function ticket_post(){
-			$.post("<{:U('Home/UserAction/new_ticket')}>", {
+			$.post("<{:U('Home/UserAction/newTicket')}>", {
 				type: $('#type').val(),
 				title: $('#title').val(),
 				message: $('#message').val()

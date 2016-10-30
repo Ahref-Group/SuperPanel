@@ -247,7 +247,7 @@ function exec_command($commands, $userinfo){
                 if(empty($operations[0]) || empty($operations[1]))
                     return false;
                     
-                $operations[0] = intval($operations[0]);
+                $operations[0] = intval($operations[0]);        //组
                 $operations[1] = intval($operations[1]);        //强制类型转换，提高安全性
                 
                 //检查组是否存在

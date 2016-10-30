@@ -30,7 +30,7 @@ class AuthActionController extends Controller
                 $this->ajaxReturn(['status'=>'error', 'info'=>_('密码解码失败，请检查你的网络，并联系网站管理员')]);
             }
             elseif(login(I('post.email'), $password, I('post.remember'))){
-                $this->ajaxReturn(['status'=>'success','info'=>_('登录成功！')]);
+                $this->ajaxReturn(['status'=>'success','info'=>_('本次登录IP: ')]);
             }
             else
                 $this->ajaxReturn(['status'=>'error', 'info'=>_('错误的邮箱或密码')]);

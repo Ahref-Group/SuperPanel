@@ -84,12 +84,12 @@
                                         </thead>
                                         <tbody>
                                             <foreach name="exchange_code_list" item="exchange_code">
-                                            <tr>
+                                            <tr id="<{$exchange_code.code}>">
                                                 <td><{$key+1}></td>
                                                 <td><{$exchange_code.code}></td>
                                                 <td><{$exchange_code.money}></td>
                                                 <td><{:date('Y-m-d' ,$exchange_code['expiration'])}></td>
-                                                <td><button class="btn btn-primary delete-code" data-code="<{$exchange_code.code}>">删除</button></td>
+                                                <td><button class="btn btn-primary delete-code"  data-code="<{$exchange_code.code}>">删除</button></td>
                                             </tr>
                                             </foreach>
                                         </tbody>
@@ -150,7 +150,7 @@
             code = $(this).attr('data-code');
             $.post("<{:U('Home/AdminAction/deleteExchangeCode')}>", {code:code},function(data){
                 if(data['status'] == 'success'){
-                    alert("删除成功！");
+                    $('#'+code).slideUp(500, function(){$(this).remove()})
                 }
             });
         });

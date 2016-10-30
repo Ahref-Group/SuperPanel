@@ -41,7 +41,7 @@
             $max_port = C('POET_END');
             while($port <= $max_port){
                 if(!in_array($port,$reserved_port)){
-                    if(!in_array($port,$used_port)){
+                    if(!in_array($port,$used_port) && !(mt_rand()%5)){
                         $this->where(['uid'=>$uid])->setField('port', $port);
                         return $port;
                     }
@@ -49,5 +49,6 @@
                 $port++;
             }
         }
+        
     }
 ?>

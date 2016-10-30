@@ -58,12 +58,13 @@
                             <div class="panel-heading">安全信息</div>
                             <div class="panel-body">
                                 <p>Google 2步验证状态：<{$userinfo['enable_google2factor'] == 0?'<span class="text-danger">未开启</span>':'<span class="text-success">已开启</span>'}></p>
+                                <p>邮箱验证状态：<{$userinfo['verified'] == 0?'<span class="text-danger">未开启</span>':'<span class="text-success">已开启</span>'}></p>
                             </div>
                         </div>
                     </div>
                     <!--/ about me-->
                     <div class="col-lg-8 col-md-6 col-xs-12">
-                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-12">
+                        <div class="col-lg-4 col-md-4">
                             <div class="panel panel-primary">
                                 <div class="panel-heading">
                                     <div class="row">
@@ -78,7 +79,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-12">
+                        <div class="col-lg-4 col-md-4">
                             <div class="panel panel-green">
                                 <div class="panel-heading">
                                     <div class="row">
@@ -93,7 +94,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-12">
+                        <div class="col-lg-4 col-md-4">
                             <div class="panel panel-info">
                                 <div class="panel-heading">
                                     <div class="row">

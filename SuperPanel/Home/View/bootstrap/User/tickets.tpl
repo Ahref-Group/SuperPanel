@@ -29,16 +29,19 @@
                     <!-- /.col-lg-12 -->
                     <div class="row">
                         <div class="col-lg-6">
-                            <div class="panel panel-info">
+                            <div class="panel panel-primary">
                                 <div class="panel-heading">
                                     <?php echo _('开启的工单');?>
                                 </div>
                                 <php>$times = 0;</php>
-                                <foreach name="ticket_list" item="vo"><if condition="$vo.status eq '1'">
+                                <foreach name="ticket_list" item="vo"><if condition="$vo.status eq 'updated' or $vo.status eq 'replied'">
                                 <div class="panel-body" id="t<{$vo.tid}>">
                                     <div class="panel panel-green">
                                         <div class="panel-heading">
                                             <{$vo.title}>
+                                            <if condition="$vo.status eq 'replied'">
+                                                <span class="text-danger pull-right">有新回复！</span>
+                                            </if>
                                         </div>
                                         <div class="panel-body">
                                             <pre class="well well-sm ticket-message"><{$vo.message}></pre>
@@ -72,14 +75,14 @@
                         </div>
                         <!-- /.col-lg-6 -->
                         <div class="col-lg-6">
-                            <div class="panel panel-warning">
+                            <div class="panel panel-yellow">
                                 <div class="panel-heading" id="close">
                                     <?php echo _('关闭的工单');?>
                                 </div>
                                 <php>$times = 0;</php>
-                                <foreach name="ticket_list" item="vo"><if condition="$vo.status eq '0'">
+                                <foreach name="ticket_list" item="vo"><if condition="$vo.status eq 'closed'">
                                 <div class="panel-body" id="t<{$vo.tid}>">
-                                    <div class="panel panel-red">
+                                    <div class="panel panel-default">
                                         <div class="panel-heading">
                                             <{$vo.title}>
                                         </div>

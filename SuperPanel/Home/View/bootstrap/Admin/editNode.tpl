@@ -58,15 +58,15 @@
                                     <div class="form-group">
                                         <label>节点状态</label>
                                         <select class="form-control" id="status">
-                                            <option <{$edit?$node_info['status'] == 0?"checked":'':""}> value="0">正常</option>
-                                            <option <{$edit?$node_info['status'] == 1?"checked":'':""}> value="1">调试中</option>
-                                            <option <{$edit?$node_info['status'] == 2?"checked":'':""}> value="2">异常</option>
+                                            <option <{$edit?($node_info['status'] == 0?'selected="selected"':''):''}> value="0">正常</option>
+                                            <option <{$edit?($node_info['status'] == 1?'selected="selected"':''):''}> value="1">调试中</option>
+                                            <option <{$edit?($node_info['status'] == 2?'selected="selected"':''):''}> value="2">异常</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
                                         <label>是否可见 </label>
                                         <input type="checkbox" data-toggle="toggle" id="visible" data-on="可见" data-off="隐藏" data-style="ios"
-                                            data-onstyle="success" data-offstyle="warning" data-size="small" <{$edit?$node_info['visible']?"checked":'':"checked"}>>
+                                            data-onstyle="success" data-offstyle="warning" data-size="small" <{$edit?($node_info['visible']?"checked":''):"checked"}>>
                                     </div>
                                 </form>
                             </div>
@@ -128,15 +128,19 @@
             node_info = $("#node_info").val();
             status= $("#status").val();
             visible= $("#visible").is(':checked');
+            
+            
             $.post("<{:U('Home/AdminAction/editNode')}>", {nid:nid,node_name:node_name, node_info:node_info, address:address, status:status, visible:visible}, function(data){
-                
+                if(data['status'] == 'success'){
+                    $.alert('添加成功！');
+                }
             });
         });
         
         $(".delete").click(function(){
             nid = $(this).attr('data-nid');
             $.post("<{:U('Home/AdminAction/deleteNode')}>", {nid:nid}, function(data){
-                if(data['status']){
+                if(data['status'] == 'success'){
                     $("[data-nid='"+nid+"']").parent().parent().hide(500, function(){$(this).remove();});
                     
                 }

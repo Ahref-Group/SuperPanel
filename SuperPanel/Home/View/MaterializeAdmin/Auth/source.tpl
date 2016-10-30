@@ -1,0 +1,3 @@
+        <link href="__PUBLIC__/MaterializeAdmin/css/layouts/page-center.css" type="text/css" rel="stylesheet" media="screen,projection">
+        <link href="__PUBLIC__/MaterializeAdmin/js/plugins/sweetalert/dist/sweetalert.css" type="text/css" rel="stylesheet" media="screen,projection">
+        <script type="text/javascript" src="__PUBLIC__/MaterializeAdmin/js/plugins/sweetalert/dist/sweetalert.min.js"></script> 

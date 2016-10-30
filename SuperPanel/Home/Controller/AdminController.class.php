@@ -78,4 +78,87 @@ class AdminController extends Controller {
             $this->display();
         }
     }
+    
+    public function group(){
+        $group_list = M('group')->select();
+        $this->assign('group_list', $group_list);
+        $this->display();
+    }
+    
+    public function groupList(){
+        $node_list = M('node')->field('nid,node_name,address')->select();
+        $group_list = M('group')->getField('gid,group_name,node');
+        
+        $gid = I('get.gid');
+        if(empty($gid)){
+            $gid = reset($group_list)['gid'];       //获取数组第一个元素的key
+        }
+        
+        $contained_node = explode(',', $group_list[$gid]['node']);
+        
+        
+        $i = 0;
+        foreach($node_list as $node){
+            $group_node[$i]['nid'] = $node['nid'];
+            if(in_array($node['nid'], $contained_node)){
+                $group_node[$i]['in'] = true;
+            }else{
+                $group_node[$i]['in'] = false;
+            }
+            $i++;
+        }
+        
+        
+        $this->assign('node_list', $node_list);
+        $this->assign('group_list', $group_list);
+        $this->assign('group_node', $group_node);
+        $this->assign('gid', $gid);
+        $this->display();
+    }
+    
+    public function tickets(){
+        //首先获取所有未关闭工单（status=0）
+        $opened_tickets_list = M("ticket")->where(['status'=>['NEQ','closed']])->order('open_time desc')->select();
+        //下面获取未关闭工单的回复
+        
+        
+        //获取已关闭工单
+        $closed_tickets_list = M('ticket')->where(['status'=>'closed'])->order('open_time desc')->select();
+        
+        $this->assign('opened_tickets_list', $opened_tickets_list);
+        $this->assign('closed_tickets_list', $closed_tickets_list);
+        
+        $this->display();
+    }
+    
+    public function nodeList(){
+        $node_list = M('node')->select();
+        
+        $this->assign('node_list', $node_list);
+        $this->display();
+    }
+    
+    
+    public function shopItem(){
+        $iid = I('get.iid');
+        if(empty($iid)){
+            $edit = false;
+            $iid = 0;
+        }else{
+            $edit = true;
+            $item_info = M('shop_item')->where(['iid'=>$iid])->find();
+            $this->assign('item_info', $item_info);
+        }
+        
+        
+        $items = M('shop_item')->select();
+        
+        $this->assign('iid', $iid);
+        $this->assign('edit', $edit);
+        $this->assign('items', $items);
+        
+        $this->display();
+    }
 }
+
+

@@ -86,13 +86,22 @@
                             <!-- /.nav-second-level -->
                         </li>
                         <li>
-                            <a href="<{:U("Home/Admin/group")}>"><i class="fa fa-bars fa-fw"></i> 分组管理</a>
+                            <a href="<{:U("Home/Admin/group")}>"><i class="fa fa-bars fa-fw"></i> 分组管理<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="<{:U("Home/Admin/group")}>"><i class="fa fa-plus fa-fw"></i> 添加组</a>
+                                </li>
+                                <li>
+                                    <a href="<{:U("Home/Admin/groupList")}>"><i class="fa fa-list fa-fw"></i> 组设置</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
                         </li>
                         <li>
                             <a href="<{:U("Home/Admin/user")}>"><i class="fa fa-users fa-fw"></i> 用户管理</a>
                         </li>
                         <li>
-                            <a href="<{:U("Home/Admin/shop")}>"><i class="fa fa-shopping-cart fa-fw"></i> 商品管理</a>
+                            <a href="<{:U("Home/Admin/shopItem")}>"><i class="fa fa-shopping-cart fa-fw"></i> 商品管理</a>
                         </li>
                         <li>
                             <a href="<{:U("Home/Admin/exchangeCode")}>"><i class="fa fa-shopping-cart fa-fw"></i> 兑换码</a>
@@ -107,7 +116,7 @@
                             <a href="<{:U("Home/Admin/invite")}>"><i class="fa fa-user-plus fa-fw"></i> 邀请管理</a>
                         </li>
                         <li>
-                            <a href="<{:U('Home/Admin/record')}>"><i class="fa fa-cog fa-fw"></i> 站点设置</a>
+                            <a href="<{:U('Home/Admin/setting')}>"><i class="fa fa-cog fa-fw"></i> 站点设置</a>
                         </li>
                         <li>
                             <a href="javascript:;"><i class="fa fa-envelope fa-fw"></i> 公告管理<span class="fa arrow"></span></a>

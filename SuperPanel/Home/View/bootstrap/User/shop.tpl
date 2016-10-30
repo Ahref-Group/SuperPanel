@@ -214,18 +214,18 @@
         });
         
         $('#purchase').on('hidden.bs.modal', function(){
-            $('#purchase-title').html('<i class="fa fa-spinner fa-spin" ></i>');
-            $('#purchase-prices').html('<i class="fa fa-spinner fa-spin" ></i>');
-            $('#purchase-introduction').html('<i class="fa fa-spinner fa-spin fa-5x" ></i>');
+            $('#purchase-title').html('<i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>');
+            $('#purchase-prices').html('<i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>');
+            $('#purchase-introduction').html('<i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>');
             $("#insufficient-balance").hide();
             $('#confirm-purchase').attr('disabled', false);
         });
         
         $('#confirm-purchase').click(function(){
-            loading = $.dialog("<p class='text-center'><i class='fa fa-spinner fa-spin fa-5x'></i></p>");
+            $("confirm-purchase").html('<i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>');
             $.post("<{:U('Home/UserAction/purchase')}>", {iid:iid}, function(data){
-                loading.close();
                 if(data['status'] == 'success'){
+                    $("confirm-pruchase").html("再次购买");
                     $.alert("购买成功，当前余额为"+data['info']+'喵币');
                     $('#balance').html(data['info']);
                     $('#balance').attr('data-balance', data['info']);

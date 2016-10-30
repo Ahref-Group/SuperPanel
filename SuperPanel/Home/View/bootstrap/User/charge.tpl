@@ -9,9 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>充值 -
-        <{$site_name}>
-    </title>
+    <title>充值 - <{$site_name}></title>
 
     <include file="Home@bootstrap/User/head" />
 
@@ -39,7 +37,7 @@
                                     <div class="col-lg-8 col-sm-6">
                                         <div class="form-group input-group">
                                             <span class="input-group-addon"><i class="fa fa-cny fa-lg"></i></span>
-                                            <input class="form-control" type="text" id="money">
+                                            <input class="form-control" type="number" id="money">
                                             <span class="input-group-addon add">.00</span>
                                         </div>
                                     </div>
@@ -50,14 +48,14 @@
                                         </div>
                                     </div>
                                     <div class="col-md-2 col-sm-12">
-                                        <button class="btn btn-primary btn-block" id="check-promo-code">验证</button>
+                                        <button class="btn btn-primary btn-block" id="check-promo-code" disabled="true">验证</button>
                                     </div>
                                 </div>
                                 <div class="panel-footer">
                                     <span class="text-info">充值<code id="charge-money">0</code>喵币</span>
                                     <span class="text-info">实际消费软妹币<code id="real-money">0</code>元</span>
                                     <span class="text-danger" id="promo-info"></span>
-                                    <button class="btn btn-warning btn-sm pull-right real-money" id="charge">充值</button>
+                                    <button class="btn btn-warning btn-sm pull-right real-money" id="charge" disabled="true">充值</button>
                                     <div class="clearfix"></div>
                                 </div>
                             </div>
@@ -73,7 +71,7 @@
                                                     <th><small>订单号</small></th>
                                                     <th><small>喵币</small></th>
                                                     <th><small>实付金额</small></th>
-                                                    <th><small>订单状态</small></th>
+                                                    <th><small>状态</small></th>
                                                     <th><small>订单创建时间</small></th>
                                                     <th><small>订单完成时间</small></th>
                                                 </tr>
@@ -135,7 +133,7 @@
                                     </div>
                                 </div>
                                 <div class="panel-footer text-right">
-                                    <button class="btn btn-warning btn-sm" id="exchange">兑换</button>
+                                    <button class="btn btn-warning btn-sm" id="exchange" disabled="true">兑换</button>
                                 </div>
                             </div>
                             <!--/.panel-->
@@ -188,6 +186,7 @@
     $("#promo-code").keyup(function() {
         if (($("#promo-code").val()).length != 0) {
             $("#check-promo-code").attr("disabled", false);
+            $("#check-promo-code").html("验证");
         } else {
             $("#check-promo-code").attr("disabled", true);
         };
@@ -205,7 +204,6 @@
                 function(data) {
                     if (data['status'] == "success") {
                         $("#real-money").html(data['info']);
-
                         $("#check-promo-code").html("已验证");
                         $("#check-promo-code").attr("disabled", true);
                     } else {
@@ -225,10 +223,10 @@
         }
         miao = $("#money").val()
         $("#charge-money").html(miao);
-        $("#charge").html("充值" + miao + "喵币");
+        $("#charge").html("充值 " + miao + " 喵币");
         $("#real-money").html(money);
         $("#promo-info").empty();
-        if (($("#money").val()).length != 0) {
+        if (($("#money").val()).length != 0 && $("#money").val() >= 0) {
             $("#charge").attr("disabled", false);
         } else {
             $("#charge").attr("disabled", true);
@@ -240,7 +238,7 @@
             if (($("#money").val()) <= 1000) {
                 promo_code = $('#promo-code').val();
                 money = $("#money").val();
-                $.get("<{:U("Home/UserAction/charge ")}>", {
+                $.get("<{:U("Home/UserAction/charge")}>", {
                         promo_code: promo_code,
                         money: money
                     },
@@ -260,11 +258,16 @@
     
     $('#check-exchange-code').click(function(){
         exchange_code = $('#exchange-code').val();
+        $("#check-exchange-code").html('<i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>');
         $.get('<{:U('Home/UserAction/getExchangCodeInfo')}>', {exchange_code:exchange_code, request:Math.floor(Math.random()*100000)}, function(data){
             if(data['status']  == 'success'){
-                $('#exchange-code-info').html("当前兑换码有效，包含："+data['info']['money']+"喵币，有效期至："+data['info']['expiration']);
+                $("#check-exchange-code").html('检查');
+                $('#exchange-code-info').html("当前兑换码有效，包含："+data['info']['money']+"喵币，有效期至："+ data['info']['expiration']);
+                $("#exchange").attr("disabled", false);
             }else{
+                $("#check-exchange-code").html('检查');
                 $('#exchange-code-info').html(data['info']);
+                $("#exchange").attr("disabled", true);
             }
         });
     });
