@@ -38,6 +38,14 @@ function Base64() {
 		}
 		return output;
 	}
+	
+	this.urlsafeencode = function(input){
+	    var base64 = this.encode(input);
+	    bas64= base64.replace(/\+/g, '-');
+	    bas64= base64.replace(/\//g, '_');
+	    base64 = base64.replace(/\=/g, '');
+	    return base64;
+	}
  
 	// public method for decoding
 	this.decode = function (input) {
